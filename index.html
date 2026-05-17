@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Nodes - Premium Game Hosting</title>
+    <style>
+        /* Base Variables & Theme */
+        :root {
+            --bg-dark: #0a0d14;
+            --card-bg: #111622;
+            --card-hover: #171e2e;
+            --accent-blue: #00b4d8;
+            --accent-orange: #ff6b35;
+            --accent-green: #2ec4b6;
+            --accent-purple: #9d4edd;
+            --accent-red: #e63946;
+            --text-main: #f8f9fa;
+            --text-muted: #94a3b8;
+            --border-color: rgba(255, 255, 255, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding-bottom: 60px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Hero Header */
+        header {
+            text-align: center;
+            padding: 60px 0 40px;
+            background: radial-gradient(circle at top, rgba(0, 180, 216, 0.15), transparent 70%);
+        }
+
+        header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, #fff 30%, var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Main Section Controls */
+        .section-title {
+            font-size: 1.8rem;
+            margin: 40px 0 24px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title span {
+            color: var(--accent-blue);
+        }
+
+        /* Games Grid Layout */
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        /* Game Card Styling */
+        .game-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .game-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(0, 180, 216, 0.3);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Simulated Banner space inside cards */
+        .game-banner {
+            height: 140px;
+            padding: 20px;
+            display: flex;
+            align-items: flex-end;
+            position: relative;
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* Dynamic Gradients for game banners */
+        .cs2-bg { background: linear-gradient(45deg, #1e1b18, #ff6b35); border-bottom: 3px solid var(--accent-orange); }
+        .fivem-bg { background: linear-gradient(45deg, #141e30, #243b55); border-bottom: 3px solid var(--accent-blue); }
+        .7dtd-bg { background: linear-gradient(45deg, #112211, #2ec4b6); border-bottom: 3px solid var(--accent-green); }
+        .minecraft-bg { background: linear-gradient(45deg, #1b4332, #40916c); border-bottom: 3px solid #52b788; }
+        .rust-bg { background: linear-gradient(45deg, #3a0ca3, #e63946); border-bottom: 3px solid var(--accent-red); }
+        .redm-bg { background: linear-gradient(45deg, #2b0000, #8b0000); border-bottom: 3px solid #cc0000; }
+        .ark-bg { background: linear-gradient(45deg, #03045e, #00b4d8); border-bottom: 3px solid var(--accent-blue); }
+        .arma-bg { background: linear-gradient(45deg, #370617, #6a040f); border-bottom: 3px solid #dc2f02; }
+        .forest-bg { background: linear-gradient(45deg, #0b2545, #134074); border-bottom: 3px solid #8da9c4; }
+        .scp-bg { background: linear-gradient(45deg, #202020, #404040); border-bottom: 3px solid #94a3b8; }
+        .palworld-bg { background: linear-gradient(45deg, #ffb703, #fb8500); border-bottom: 3px solid #ffb703; }
+        .l4d-bg { background: linear-gradient(45deg, #1a4301, #317407); border-bottom: 3px solid #55a630; }
+        .insurgency-bg { background: linear-gradient(45deg, #4f1b1d, #a83232); border-bottom: 3px solid #f26419; }
+        .truck-bg { background: linear-gradient(45deg, #03071e, #370617); border-bottom: 3px solid #e85d04; }
+        .beammp-bg { background: linear-gradient(45deg, #0077b6, #00b4d8); border-bottom: 3px solid #90e0ef; }
+        .assetto-bg { background: linear-gradient(45deg, #222, #555); border-bottom: 3px solid #d90429; }
+        .gmod-bg { background: linear-gradient(45deg, #001219, #005f73); border-bottom: 3px solid #0a9396; }
+        .discord-bg { background: linear-gradient(45deg, #3a0ca3, #7289da); border-bottom: 3px solid #7289da; }
+        .voice-bg { background: linear-gradient(45deg, #1d3557, #457b9d); border-bottom: 3px solid #a8dadc; }
+
+        .game-badge {
+            background: rgba(0, 0, 0, 0.65);
+            backdrop-filter: blur(4px);
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+        }
+
+        .game-body {
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .game-body p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+            min-height: 48px;
+        }
+
+        /* Specs / Features List inside cards */
+        .specs-list {
+            list-style: none;
+            margin-bottom: 24px;
+        }
+
+        .specs-list li {
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            color: #cbd5e1;
+        }
+
+        .specs-list span {
+            color: var(--text-muted);
+        }
+
+        /* Card Action Button */
+        .card-btn {
+            background-color: rgba(255, 255, 255, 0.04);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: 600;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+            margin-top: auto;
+            transition: background-color 0.2s ease, border-color 0.2s ease;
+        }
+
+        .game-card:hover .card-btn {
+            background-color: var(--accent-blue);
+            border-color: var(--accent-blue);
+            color: #000;
+        }
+
+        /* Global Node Infrastructure Metrics Footer */
+        .infra-panel {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 24px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .metric-item h4 {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+
+        .metric-item p {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .metric-item p span {
+            color: var(--accent-blue);
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 768px) {
+            header h1 { font-size: 2.2rem; }
+            .games-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Main Website Header -->
+    <header>
+        <div class="container">
+            <h1>Flight Nodes</h1>
+            <p>High-frequency, low-latency node networks engineered for specialized multiplayer architectures.</p>
+        </div>
+    </header>
+
+    <!-- Main Content Body -->
+    <main class="container">
+        
+        <h2 class="section-title"><span>■</span> Game Hosting Nodes</h2>
+        
+        <!-- Games Grid System -->
+        <div class="games-grid">
+            
+            <!-- Game Node: FiveM -->
+            <article class="game-card">
+                <div class="game-banner fivem-bg">
+                    <div class="game-badge" style="color: var(--accent-blue);">FIVEM</div>
+                </div>
+                <div class="game-body">
+                    <p>High-capacity memory allocations tailored explicitly for resource-heavy custom script environments.</p>
+                    <ul class="specs-list">
+                        <li><span>Capacity</span> Up to 1024 Slots</li>
+                        <li><span>Database</span> Integrated MariaDB</li>
+                        <li><span>Storage</span> Enterprise NVMe Gen4</li>
+                    </ul>
+                    <a href="#deploy-fivem" class="card-btn">Deploy FiveM Node</a>
+                </div>
+            </article>
+
+            <!-- Game Node: Minecraft -->
+            <article class="game-card">
+                <div class="game-banner minecraft-bg">
+                    <div class="game-badge" style="color: #52b788;">MINECRAFT</div>
+                </div>
+                <div class="game-body">
+                    <p>High single-core CPU clock speeds optimization for massive render distances and complex redstone setups.</p>
+                    <ul class="specs-list">
+                        <li><span>Software</span> Paper / Purpur / Forge</li>
+                        <li><span>Optimization</span> Aikar's Flags Enabled</li>
+                        <li><span>Modpacks</span> 1-Click Installer</li>
+                    </ul>
+                    <a href="#deploy-minecraft" class="card-btn">Deploy Minecraft Node</a>
+                </div>
+            </article>
+
+            <!-- Game Node: Rust -->
+            <article class="game-card">
+                <div class="game-banner rust-bg">
+                    <div class="game-badge" style="color: var(--accent-red);">RUST</div>
+                </div>
+                <div class="game-body">
+                    <p>Extreme performance environments handling massive entity counts and fast custom map wipes seamlessly.</p>
+                    <ul class="specs-list">
+                        <li><span>Map Size</span> Support up to 6000</li>
+                        <li><span>Framework</span> Oxide / uMod Support</li>
+                        <li><span>Protection</span> DDoS Attack Filtering</li>
+                    </ul>
+                    <a href="#deploy-rust" class="card-btn">Deploy Rust Node</a>
+                </div>
+            </article>
+
+            <!-- Game Node: RedM -->
+            <article class="game-card">
+                <div class="game-banner redm-bg">
+                    <div class="game-badge" style="color: #ff4d4d;">REDM</div>
+                </div>
+                <div class="game-body">
+                    <p>Dedicated instances calibrated for Red Dead Redemption 2 framework streaming and roleplay scripts.</p>
+                    <ul class="specs-list">
+                        <li><span>API Access</span> Full TXAdmin Access</li>
+                        <li><span>Performance</span> Specialized CPU Coring</li>
+                        <li><span>Sync</span> OneSync Infrastructure</li>
+                    </ul>
+                    <a href="#deploy-redm" class="card-btn">Deploy RedM Node</a>
+                </div>
+            </article>
+
+            <!-- Game Node: Ark: Survival Evolved -->
+            <article class="game-card">
+                <div class="game-banner ark-bg">
+                    <div class="game-badge" style="color: var(--accent-blue);">ARK: SURVIVAL EVOLVED</div>
+                </div>
+                <div class="game-body">
+                    <p>Cross-travel cluster ready hosting arrays featuring rapid database initialization arrays.</p>
+                    <ul class="specs-list">
+                        <li><span>Clustering</span> Cross-Play Seamless Grid</li>
+                        <li><span>Mod Config</span> Ark Server Manager Integrated</li>
+                        <li><span>Backups</span> Multi-point Save Restores</li>
+                    </ul>
+                    <a href="#deploy-ark-se" class="card-btn">Deploy Ark: SE Node</a>
+                </div>
+            </article>
+
+            <!-- Game Node: Ark: Survival Ascended -->
+            <article class="game-card">
+                <div class="game-banner ark-bg">
+                    <div class="game-badge" style="color: #90e0ef;">ARK: SURVIVAL ASCENDED</div>
+                </div>
+                <div class="game-body">
+                    <p>Next-gen Unreal Engine 5 multiplayer environments utilizing maximized RAM speed buses.</p>
+                    <ul class="specs-list">
+                        <li><span>Crossplay</span> PC / Xbox / PS5 Native</li>
+                        <li><span>Hardware</span> High-Speed DDR5 RAM</li>
+                        <li><span>Mods</span> CurseForge API Integrated</li>
+                    </ul>
+                    <a href="#deploy-ark-sa" class="card-btn">Deploy Ark: SA Node</a>
+                </div>
+            </article>
+
+            <!-- Game Node: Arma 3 -->
+            <article class="game-card">
+                <div class="game-banner arma-bg">
+                    <div class="game-badge" style="color: #dc2f02;">ARMA 3</div>
+                </div>
+                <div class="game-body">
+                    <p>Custom headless client network nodes configured for massive military simulation deployments.</p>
+                    <ul class="specs-list">
+                        <li><span>Automation</span> Headless Client Support</li>
+                        <li><span>Mod Profiles</span> Creator DLC Integration</li>
+                        <li><span>Control</span> Full Command Line Access</li>
+                    </ul>
+                    <a href="#deploy-arma3" class="card-btn">Deploy Arma 3 Node</a>
+                </div>
+            </article>
+
+            <!-- Game Node: Arma Reforger -->
+            <article class="game-card">
+                <div class="game-banner arma-bg">
+                    <div class="game-badge" style="color: #f26419;">ARMA REFORGER</div>
+                </div>
+                <div class="game-body">
+                    <p>Enfusion Engine optimized networks built for crossplay reliability and network replication efficiency.</p>
+                    <ul class="specs-list">
+                        <li><span>Backend</span> Workbench Integration</li>
+                        <li><span>Protocol</span> Fast Packet Pipeline</li>
+                        <li><span>Crossplay</span> Xbox & PC Synchronized</li>
+                    </ul>
+                    <a href="#deploy-reforger" class="card-btn">Deploy Reforger Node</a>
+                </div>
+            </article>
+
+            <!-- Game Node: Sons Of The Forest -->
+            <article class="game-card">
+                <div class="game-banner forest-bg">
+                    <div class="game-badge" style="color: #8da9c4;">SONS OF THE FOREST</div>
+                </div>
+                <div class="game-body">
+                    <p>Persistent coop servers deploying seamless world saving and zero-throttling AI compute cores.</p>
+                    <ul class="specs-list">
+                        <li><span>Saves</span> Instant State Preservation</li>
+                        <li><span>Co-op</span> Max Player Limits Unlocked</li>
+                        <li><span>Security</span> Automated Integrity Verifier</li>
+                    </ul>
+                    <a href="#deploy-soft" class="card-btn">Deploy SotF Node</a>
+                </div>
+            </article>
+
+            <!-- Game Node: SCP: Secret Laboratory -->
+            <article class="game-card">
+                <div class="game-banner scp-bg">
+                    <div class="game-badge" style="color: #ffffff;">SCP: SECRET LABORATORY</div>
+                </div>
+                <div class="game-body">
+                    <p>Low jitter networks built for competitive round-based asymmetric match architectures.</p>
+                    <ul class="specs-list">
+                        <li><span>Engine</span> Unity Multi-thread Patches</li>
+                        <li><span>Plugin Support</span> EXILED & NWAPI Ready</li>
+                        <li><span>Monitoring</span> Realtime Console Output</li>
+                    </ul>
+                    <a href="#deploy-scp" class="card-btn">Deploy SCP Node</a>
+                </div>
+            </article>
+
+            <!-- Game Node: Palworld -->
+            <article class="game-card">
+                <div class="game-banner palworld-bg">
+                    <div class="game-badge" style="color: #03071e;">PALWORLD</div>
+                </div>
+                <div class="game-body">
+                    <p>Memory-leak guarded server kernels built to handle massive structural persistence across global maps.</p>
+                    <ul class="specs-list">
+                        <li><span>Reliability</span> Auto-Restart Crash Recovery</li>
+                        <li><span>RAM Allocation</span> Over-provisioned Nodes</li>
+                        <li><span>Saves</span> 30-Minute Interval Backups</li>
+                    </ul>
+                    <a href="#deploy-palworld" class="card-btn">Deploy Palworld Node</a>
+                </div>
+            </article>
+
+            <!-- Game Node: Left 4 Dead -->
+            <article class="game-card">
+                <div class="game-banner l4d-bg">
+                    <div class="game-badge" style="color: #a7c957;">LEFT 4 DEAD</div>
+                </div>
+                <div class="game-body">
+                    <p>Classic Source Engine host configurations optimized for raw tickrate processing speeds.</p>
+                    <ul class="specs-list">
+                        <li><span>Tickrate</span> Custom 100 Tick Rates</li>
+                        <li><span>Mod Engine</span> SourceMod / MetaMod Ready</li>
+                        <li><span>Latency</span> Ultra-low Network Busses</li>
+                    </ul>
+                    <a href="#deploy-l4d" class="card-btn">Deploy L4D Node</a>
+                </div>
+            </article>
+
+            <!-- Game Node: Left 4 Dead 2 -->
+            <article class="game-card">
+                <div class="game-banner l4d-bg">
+                    <div class="game-badge" style="color: #38b000;">LEFT 4 DEAD 2</div>
+                </div>
+                <div class="game-body">
+                    <p>Versus and Campaign hosting instances geared for script workshops and custom campaigns.</p>
+                    <ul class="specs-list">
+                        <li><span>Workshop</span> Steam Workshop Sync</li>
+                        <li><span>Matchmaking</span> Direct Connect IPs Unlocked</li>
+                        <li><span>Tuning</span> Custom Server.cfg Engine</li>
+                    </ul>
+                    <a href="#deploy-l4d2" class="card-btn">Deploy L4D2 Node</a>
+                </div>
+            </article>
+
+            <!-- Game Node: Insurgency: Sandstorm -->
+            <article class="game-card">
+                <div class="game-banner insurgency-bg">
+                    <div class="game-badge" style="color: #ffb703;">INSURGENCY: SANDSTORM</div>
+                </div>
+                <div class="game-body">
+                    <p>Tactical shooter infrastructure delivering tick-accurate bullet tracking and fast level loads.</p>
+                    <ul class="specs-list">
+                        <li><span>Engine</span> Unreal Engine 4 Enhanced</li>
+                        <li><span>Modding</span> Mod.io API Key Support</li>
+                        <li><span>Theater</span> Custom Game Mode Configurations</li>
+                    </ul>
+                    <a href="#deploy-sandstorm" class="card-btn">Deploy Sandstorm Node</a>
+                </div>
+            </article>
+
+            <!-- Game Node: Ground Branch -->
+            <article class="game-card">
+                <div class="game-banner insurgency-bg">
+                    <div class="game-badge" style="color: #e63946;">GROUND BRANCH</div>
+                </div>
+                <div class="game-body">
+                    <p>High-fidelity CQB operations performance nodes utilizing multi-threading prioritization configurations.</p>
+                    <ul class="specs-list">
+                        <li><span>Tick Consistency</span> Locked Kernel Timers</li>
+                        <li><span>Administration</span> Web Console Access</li>
+                        <li><span>Profiles</span> Ready-to-go Custom Playlists</li>
+                    </ul>
+                    <a href="#deploy-groundbranch" class="card-btn">Deploy Ground Branch</a>
+                </div>
+            </article>
+
+            <!-- Game Node: Euro Truck Sim 2 -->
+            <article class="game-card">
+                <div class="game-banner truck-bg">
+                    <div class="game-badge" style="color: #ffffff;">EURO TRUCK SIM 2</div>
+                </div>
+                <div class="game-body">
+                    <p>Dedicated convoy synchronization pipelines maintaining consistent physics packets updates.</p>
+                    <ul class="specs-list">
+                        <li><span>Sync</span> High-frequency Positioning Packets</li>
+                        <li><span>DLC</span> Full Manifest Matching Support</li>
+                        <li><span>Uptime</span> 100% Constant Core State</li>
+                    </ul>
+                    <a href="#deploy-ets2" class="card-btn">Deploy ETS2 Node</a>
+                </div>
+            </article>
+
+            <!-- Game Node: American Truck Simulator -->
+            <article class="game-card">
+                <div class="game-banner truck-bg">
+                    <div class="game-badge" style="color: #ffb703;">AMERICAN TRUCK SIMULATOR</div>
+                </div>
+                <div class="game-body">
+                    <p>High capacity persistent highway network configurations built for long-haul tracking fleets.</p>
+                    <ul class="specs-list">
+                        <li><span>Network</span> Dedicated Sim Network Routes</li>
+                        <li><span>Mod Handling</span> Seamless Server-Side Verification</li>
+                        <li><span>Control</span> Web Panel Config Mapping</li>
+                    </ul>
+                    <a href="#deploy-ats" class="card-btn">Deploy ATS Node</a>
+                </div>
+            </article>
+
+            <!-- Game Node: Counter Strike 2 -->
+            <article class="game-card">
+                <div class="game-banner cs2-bg">
+                    <div class="game-badge" style="color: var(--accent-orange);">COUNTER-STRIKE 2</div>
+                </div>
+                <div class="game-body">
+                    <p>Sub-tick optimized server environments boasting locked performance and advanced DDoS mitigation.</p>
+                    <ul class="specs-list">
+                        <li><span>Tickrate</span> Sub-Tick / 128 Tick Ready</li>
+                        <li><span>CPU Priority</span> Real-time Process Allocations</li>
+                        <li><span>Locations</span> Tier-1 Network Transit</li>
+                    </ul>
+                    <a href="#deploy-cs2" class="card-btn">Deploy CS2 Node</a>
+                </div>
+            </article>
+
+            <!-- Game Node: BeamMP -->
+            <article class="game-card">
+                <div class="game-banner beammp-bg">
+                    <div class="game-badge" style="color: #ffffff;">BEAMMP MULTIPLAYER</div>
+                </div>
+                <div class="game-body">
+                    <p>Advanced real-time soft-body physics data replication engines with high network bandwidth allocations.</p>
+                    <ul class="specs-list">
+                        <li><span>Bandwidth</span> Unmetered Port Pipelines</li>
+                        <li><span>Mod Handling</span> In-game Auto-Downloaders</li>
+                        <li><span>CPU Mapping</span> Heavy Float-Point Multi-threading</li>
+                    </ul>
+                    <a href="#deploy-beammp" class="card-btn">Deploy BeamMP Node</a>
+                </div>
+            </article>
+
+            <!-- Game Node: Assetto Corsa -->
+            <article class="game-card">
+                <div class="game-banner assetto-bg">
+                    <div class="game-badge" style="color: #ef233c;">ASSETTO CORSA</div>
+                </div>
+                <div class="game-body">
+                    <p>Sim-racing optimized nodes featuring fully integrated Content Manager / Content Server API support.</p>
+                    <ul class="specs-list">
+                        <li><span>Integration</span> Content Manager / Stracker Support</li>
+                        <li><span>Telemetric</span> Real-time Track Output</li>
+                        <li><span>Stability</span> Sub-millisecond Packet Pacing</li>
+                    </ul>
+                    <a href="#deploy-assetto" class="card-btn">Deploy Assetto Node</a>
+                </div>
+            </article>
+
+            <!-- Game Node: Insurgency -->
+            <article class="game-card">
+                <div class="game-banner insurgency-bg">
+                    <div class="game-badge" style="color: #94a3b8;">INSURGENCY (CLASSIC)</div>
+                </div>
+                <div class="game-body">
+                    <p>Classic tactical operations frameworks deployed onto high frequency performance instances.</p>
+                    <ul class="specs-list">
+                        <li><span>Core</span> Source Engine Legacy Tuned</li>
+                        <li><span>FastDL</span> Web-Accessible HTTP Storage</li>
+                        <li><span>Access</span> Full FTP File Access</li>
+                    </ul>
+                    <a href="#deploy-insurgency" class="card-btn">Deploy Insurgency Node</a>
+                </div>
+            </article>
+
+            <!-- Game Node: Garrys Mod -->
+            <article class="game-card">
+                <div class="game-banner gmod-bg">
+                    <div class="game-badge" style="color: #00b4d8;">GARRYS MOD</div>
+                </div>
+                <div class="game-body">
+                    <p>Sandbox hosting platforms configured specifically to isolate Lua panics and cache massive workshop packs.</p>
+                    <ul class="specs-list">
+                        <li><span>Workshop</span> FastDL Collection Auto-Mount</li>
+                        <li><span>Type</span> DarkRP / TTT / Sandbox Preset</li>
+                        <li><span>Ram</span> Lua Memory Cache Unlocked</li>
+                    </ul>
+                    <a href="#deploy-gmod" class="card-btn">Deploy GMod Node</a>
+                </div>
+            </article>
+
+            <!-- Game Node: CS:GO -->
+            <article class="game-card">
+                <div class="game-banner cs2-bg">
+                    <div class="game-badge" style="color: #94a3b8;">CS: GLOBAL OFFENSIVE</div>
+                </div>
+                <div class="game-body">
+                    <p>Legacy competitive network hosting arrays built for custom communities and tournament modes.</p>
+                    <ul class="specs-list">
+                        <li><span>Tickrate</span> 128 Tick Matchmaking Array</li>
+                        <li><span>Plugins</span> Sourcemod Plugins Allowed</li>
+                        <li><span>Backups</span> Instant Demo Record Storage</li>
+                    </ul>
+                    <a href="#deploy-csgo" class="card-btn">Deploy CS:GO Node</a>
+                </div>
+            </article>
+
+            <!-- Game Node: 7 Days to Die -->
+            <article class="game-card">
+                <div class="game-banner 7dtd-bg">
+                    <div class="game-badge" style="color: var(--accent-green);">7 DAYS TO DIE</div>
+                </div>
+                <div class="game-body">
+                    <p>Optimized RWG (Random World Generation) processing cores built to handle massive zombie pathfinding.</p>
+                    <ul class="specs-list">
+                        <li><span>World Size</span> Up to 16k Maps</li>
+                        <li><span>Mod Support</span> Darkness Falls Ready</li>
+                        <li><span>Backups</span> Automated Hourly</li>
+                    </ul>
+                    <a href="#deploy-7dtd" class="card-btn">Deploy 7D2D Node</a>
+                </div>
+            </article>
+
+        </div>
+
+        <!-- NEW SECTION: Application & Voice Infrastructure -->
+        <h2 class="section-title"><span>■</span> Application & Voice Nodes</h2>
+        
+        <div class="games-grid">
+            
+            <!-- Service Node: Discord Bot Hosting -->
+            <article class="game-card">
+                <div class="game-banner discord-bg">
+                    <div class="game-badge" style="color: #ffffff;">DISCORD BOT HOSTING</div>
+                </div>
+                <div class="game-body">
+                    <p>24/7 continuous run runtimes engineered to keep webhooks and interactive automation bots online without interruption.</p>
+                    <ul class="specs-list">
+                        <li><span>Languages</span> Node.js / Python / Java / Go</li>
+                        <li><span>Process</span> PM2 Daemon Monitoring</li>
+                        <li><span>Availability</span> 99.99% Network Pipeline Guarantee</li>
+                    </ul>
+                    <a href="#deploy-discord" class="card-btn">Deploy Bot Worker</a>
+                </div>
+            </article>
+
+            <!-- Service Node: Voice Hosting (Teamspeak) -->
+            <article class="game-card">
+                <div class="game-banner voice-bg">
+                    <div class="game-badge" style="color: #ffffff;">VOICE HOSTING / TEAMSPEAK</div>
+                </div>
+                <div class="game-body">
+                    <p>Crystal clear VoIP servers running on low-overhead core architecture with specialized anti-DDoS audio filters.</p>
+                    <ul class="specs-list">
+                        <li><span>Codec</span> Opus Voice Pipelines Unlocked</li>
+                        <li><span>System</span> TeamSpeak 3 / TeamSpeak 5 Native</li>
+                        <li><span>Latency</span> Sub-5ms Internal Traffic Core</li>
+                    </ul>
+                    <a href="#deploy-voice" class="card-btn">Deploy Voice Server</a>
+                </div>
+            </article>
+
+        </div>
+
+        <!-- Infrastructure Panel Footer -->
+        <div class="infra-panel">
+            <div class="metric-item">
+                <h4>Global Edge Locations</h4>
+                <p>24 Active</p>
+            </div>
+            <div class="metric-item">
+                <h4>Network Uptime</h4>
+                <p>99.99<span>%</span></p>
+            </div>
+            <div class="metric-item">
+                <h4>Average Latency</h4>
+                <p>&lt; 12ms</p>
+            </div>
+            <div class="metric-item">
+                <h4>Node Hardware</h4>
+                <p>AMD Ryzen 9</p>
+            </div>
+        </div>
+
+    </main>
+
+</body>
+</html>
